@@ -6,7 +6,7 @@ from user_record.user_results import UserResults
 
 
 class WinWindow(Window):
-    def show_window(self, score, game_time):
+    def show_window(self, game_time,  score):
         self._clear_current_view()
         win_label = tk.Label(self._current_window_frame,
                              text=f"Ви виграли.\n Ваша кількість очок: {score}.\n Час:{game_time}\nВведіть своє ім'я",
