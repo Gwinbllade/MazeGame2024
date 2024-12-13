@@ -1,15 +1,15 @@
 import tkinter as tk
-from typing import Optional
+from typing import Optional, Tuple
 
 
 class Window:
     def __init__(self, root: tk.Tk):
         self._current_window_frame: Optional[tk.Frame]  = None
         self._root: tk.Tk = root
-        self._windows: Optional['Window'] = None
+        self._windows: Optional[Tuple[str, 'Window']] = None
 
     @property
-    def windows(self) -> ['Window']:
+    def windows(self) -> Tuple[str, 'Window']:
         return self._windows
 
     @windows.setter

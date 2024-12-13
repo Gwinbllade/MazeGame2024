@@ -20,4 +20,4 @@ class MenuWindow(Window):
 
         #Quit button
         tk.Button(self._current_window_frame, text="Quit", width="20", font=("Helvetica", 16),
-                                command=lambda: self._root.quit())
+                                command=lambda: self._root.quit()).pack(pady=20)
