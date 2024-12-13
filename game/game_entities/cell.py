@@ -2,11 +2,11 @@ from typing import Tuple
 
 
 class Cell:
-    def __init__(self, x: int, y: int, type: str ="p"):
+    def __init__(self, x: int, y: int, cell_type: str = "p"):
 
         self.__x: int = x
         self.__y: int = y
-        self.__type: str = type
+        self.__type: str = cell_type
 
 
     @property

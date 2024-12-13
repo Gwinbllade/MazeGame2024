@@ -5,7 +5,7 @@ from interface.windows_class.game_window import GameWindow
 from interface.windows_class.leader_board_window import LeaderBoardWindow
 from interface.windows_class.menu_window import MenuWindow
 from interface.windows_class.win_window import WinWindow
-
+from interface.windows_class.window import Window
 
 
 class UI:
@@ -19,7 +19,7 @@ class UI:
         self._current_window_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 
-        self.__windows: dict[str: Window] = {
+        self.__windows: dict[str, Window] = {
             "Game setting" : GameSettingWindow(self.__root),
             "Menu": MenuWindow(self.__root),
             "Leader board": LeaderBoardWindow(self.__root),

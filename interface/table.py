@@ -1,13 +1,13 @@
 import tkinter as tk
 from tkinter import Frame, ttk
-from typing import Tuple, AnyStr, Optional
+from typing import Tuple, Optional
 
 from user_record.user_result_record import UserResultRecord
 
 
 class Table:
-    def __init__(self, root: tk.Tk):
-        self.__root: tk.Tk = root
+    def __init__(self, root: tk.Frame):
+        self.__root: tk.Frame = root
         self.__table: ttk.Treeview | None  = None
 
 

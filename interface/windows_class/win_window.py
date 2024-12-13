@@ -1,7 +1,5 @@
 from interface.windows_class.window import Window
 import tkinter as tk
-
-from user_record.user_result_record import UserResultRecord
 from user_record.user_results import UserResults
 
 
