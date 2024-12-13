@@ -1,6 +1,6 @@
-from user_interface.user_interface import UserInterface
+from interface.user_interface import UI
 
 
 if __name__ == "__main__":
-    ui = UserInterface()
+    ui: UI = UI()
     ui.start()

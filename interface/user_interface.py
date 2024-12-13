@@ -1,24 +1,25 @@
 import tkinter as tk
 
-from user_interface.windows_class.game_setting_window import GameSettingWindow
-from user_interface.windows_class.game_window import GameWindow
-from user_interface.windows_class.leader_board_window import LeaderBoardWindow
-from user_interface.windows_class.menu_window import MenuWindow
-from user_interface.windows_class.win_window import WinWindow
+from interface.windows_class.game_setting_window import GameSettingWindow
+from interface.windows_class.game_window import GameWindow
+from interface.windows_class.leader_board_window import LeaderBoardWindow
+from interface.windows_class.menu_window import MenuWindow
+from interface.windows_class.win_window import WinWindow
 
 
-class UserInterface:
+
+class UI:
     def __init__(self):
-        self.__root = tk.Tk()
+        self.__root: tk.Tk = tk.Tk()
         self.__root.title('Maze Game')
-        width = self.__root.winfo_screenwidth()
-        height = self.__root.winfo_screenheight()
+        width: int = self.__root.winfo_screenwidth()
+        height: int = self.__root.winfo_screenheight()
         self.__root.geometry("%dx%d" % (width, height))
-        self._current_window_frame = tk.Frame(self.__root)
+        self._current_window_frame: tk.Frame = tk.Frame(self.__root)
         self._current_window_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 
-        self.__windows = {
+        self.__windows: dict[str: Window] = {
             "Game setting" : GameSettingWindow(self.__root),
             "Menu": MenuWindow(self.__root),
             "Leader board": LeaderBoardWindow(self.__root),

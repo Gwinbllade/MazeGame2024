@@ -6,12 +6,12 @@ SAVE_RECORD_PATH = "app_file/results.txt"
 
 
 class UserResults:
-    def __init__(self, file_path):
-        self.__records = []
+    def __init__(self, file_path: str):
+        self.__records: [UserResultRecord] = []
         self.__read_file(file_path)
 
 
-    def __read_file(self, file_path):
+    def __read_file(self, file_path: str):
         with open(file_path, 'r') as f:
             data = f.read().split('\n')
             for record in data:
@@ -20,7 +20,7 @@ class UserResults:
 
 
     def get_top_10(self):
-        top_10_records = copy(self.__records)
+        top_10_records: [UserResultRecord] = copy(self.__records)
         top_10_records.sort()
         top_10_records = top_10_records[:10 if len(self.__records) > 10 else len(self.__records)]
 
@@ -31,6 +31,6 @@ class UserResults:
         return ((f"{i+1}", f"{top_10_records[i].name}", f"{top_10_records[i].time}", f"{top_10_records[i].score}") for i in range(0, 10))
 
     @staticmethod
-    def save_result(name, time, score):
+    def save_result(name: str, time: str, score:int):
         with open(SAVE_RECORD_PATH, "a") as file:
             file.write(str(UserResultRecord(f"{name}#{time}#{score}")) + "\n")

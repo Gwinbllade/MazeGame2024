@@ -1,18 +1,19 @@
+from typing import Tuple
+
+
 class Character:
     def __init__(self):
-        self._x = 0
-        self._y = 0
-        self._move_spead = 1
+        self._x:int = 0
+        self._y:int = 0
 
-
-    def get_coord(self):
+    def get_coord(self) -> Tuple[int, int]:
         return self._x, self._y
 
-    def set_coord(self, coord):
-        self._x = coord[0]
-        self._y = coord[1]
+    def set_coord(self, coord: Tuple[int, int]):
+        self._x, self._y  = coord
 
-    def move(self, direction):
+
+    def move(self, direction: str):
         match direction:
             case "up":
                 self._y+=1
