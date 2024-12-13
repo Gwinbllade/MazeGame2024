@@ -31,6 +31,6 @@ class UserResults:
         return ((f"{i+1}", f"{top_10_records[i].name}", f"{top_10_records[i].time}", f"{top_10_records[i].score}") for i in range(0, 10))
 
     @staticmethod
-    def save_result(name, score, time):
+    def save_result(name, time, score):
         with open(SAVE_RECORD_PATH, "a") as file:
             file.write(str(UserResultRecord(f"{name}#{time}#{score}")) + "\n")

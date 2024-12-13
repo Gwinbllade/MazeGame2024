@@ -19,7 +19,7 @@ class GameWindow(Window):
         time_label = tk.Label(self._current_window_frame, text="00:00:00", font=("Helvetica", 30), bg="white")
         time_label.place(x=10, y=10)
 
-        game_logic = GameLogic(width, height, score_multiplier)
+        game_logic = GameLogic(width, height, score_multiplier, canvas)
 
         def handle_keypress(event):
             key = event.keysym.lower()
@@ -33,7 +33,7 @@ class GameWindow(Window):
                 game_logic.move_player('right')
 
         self._root.bind("<KeyPress>", handle_keypress)
-        game_time, score = game_logic.game_loop(canvas, time_label)
+        game_time, score = game_logic.game_loop(time_label)
         self._root.unbind("<KeyPress>")
 
         self._windows["Win window"].show_window(game_time, score)

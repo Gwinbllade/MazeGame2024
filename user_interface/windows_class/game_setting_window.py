@@ -8,9 +8,9 @@ class GameSettingWindow(Window):
         title_label.pack(pady=50)
 
         difficulty = {
-            "Hard": [45, 45, 300],
-            "Medium": [25, 25, 200],
-            "Easy": [15, 15, 50],
+            "Hard": [105, 105, 300],
+            "Medium": [75, 75, 200],
+            "Easy": [25, 25, 50],
         }
 
 
