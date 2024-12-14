@@ -16,6 +16,7 @@ OUTLINE_COLOR = "black"
 PLAYER_COLOR = "red"
 MAZE_MAP_FILE = "./app_file/maze_map.txt"
 MAZE_CONFIG_MAP = "./app_file/maze_config.txt"
+FPS = 60
 
 class CellType(Enum):
     WALL = "w"
@@ -61,6 +62,25 @@ class GameLogic:
 
         if not self.__out_of_bounds(new_coord) and self.__maze.get_cell(new_x, new_y).type != 'w':
             self.__player.move(direction)
+            self.__draw_player()
+
+
+    def __draw_player(self):
+        # Render new player`s position
+
+        current_player_x: int
+        current_player_y: int
+
+        current_player_x, current_player_y = self.__player.get_coord()
+        self.__draw_rect(current_player_x, current_player_y, PLAYER_COLOR)
+
+        # Clear old player's position
+        old_player_x: int | None
+        old_player_y: int | None
+
+        old_player_x, old_player_y = self.__player.get_old_coord()
+        if old_player_x is not None:
+            self.__draw_rect(old_player_x, old_player_y, CellColor.PASS.value)
 
 
     def __out_of_bounds(self, coord: Tuple[int, int]) -> bool:
@@ -84,7 +104,6 @@ class GameLogic:
                         color:str = CellColor.FINISH.value
                     case _:
                         color:str = CellColor.DEFAULT.value
-
                 self.__draw_rect(x, y, color)
         self.__screen.update()
 
@@ -92,25 +111,6 @@ class GameLogic:
     def render(self, time_label: Label):
         self.__update_time(time_label)
         self.__screen.update()
-
-        # Render new player`s position
-
-        current_player_x: int
-        current_player_y: int
-
-        current_player_x, current_player_y = self.__player.get_coord()
-        self.__draw_rect(current_player_x, current_player_y, PLAYER_COLOR)
-
-        # Clear old player's position
-        old_player_x: int | None
-        old_player_y: int | None
-
-        old_player_x, old_player_y = self.__player.get_old_coord()
-        if old_player_x is not None:
-            self.__draw_rect(old_player_x, old_player_y, CellColor.PASS.value)
-
-
-
 
     def __draw_rect(self, x: int, y: int, bg_color: str):
         x1: int = self.offset_x + x * self.cell_size
@@ -168,7 +168,9 @@ class GameLogic:
         self.start_time: float = time.time()
         self.__calc_game_session_values()
         self.__draw_maze()
+        self.__draw_player()
         while not is_win:
+            time.sleep(1 / FPS)
             self.render(time_label)
             is_win = self.check_win()
 
