@@ -1,48 +1,41 @@
 import os
 import time
 from enum import Enum
-from tkinter import Canvas, Label
-
-from .game_entities.cell import Cell
 from .game_entities.maze import Maze
 from .game_entities.player import Player
 import subprocess
 from typing import Tuple
 
 os.environ["PATH"] += r";C:\msys64\ucrt64\bin"
-
-
-OUTLINE_COLOR = "black"
-PLAYER_COLOR = "red"
 MAZE_MAP_FILE = "./app_file/maze_map.txt"
 MAZE_CONFIG_MAP = "./app_file/maze_config.txt"
-FPS = 60
 
 class CellType(Enum):
     WALL = "w"
     PASS = "p"
     FINISH = "e"
 
-class CellColor(Enum):
-    WALL = "black"
-    PASS = "white"
-    FINISH = "blue"
-    DEFAULT = "green"
 
 
 class GameLogic:
-    def __init__(self, width: int, height: int, score_multiplier: int, screen: Canvas):
-        self.start_time: int = 0
-        self.offset_x: int = 0
-        self.offset_y: int = 0
-        self.cell_size: int = 0
+    def __init__(self, width: int, height: int, score_multiplier: int):
         self.__maze: Maze = Maze()
         self.__generate_maze(width, height)
         self.__player: Player = Player()
         self.__player.set_coord(self.__maze.coord_start)
         self.__score_multiplier:int = score_multiplier
-        self.__screen: Canvas = screen
+        self.__start_time: float = time.time()
 
+    def get_game_time(self):
+        return int(time.time() - self.__start_time)
+
+    @property
+    def player(self) -> Player:
+        return self.__player
+
+    @property
+    def maze(self) -> Maze:
+        return self.__maze
 
     def move_player(self, direction: str):
         player_current_x: int
@@ -62,25 +55,7 @@ class GameLogic:
 
         if not self.__out_of_bounds(new_coord) and self.__maze.get_cell(new_x, new_y).type != 'w':
             self.__player.move(direction)
-            self.__draw_player()
-
-
-    def __draw_player(self):
-        # Render new player`s position
-
-        current_player_x: int
-        current_player_y: int
-
-        current_player_x, current_player_y = self.__player.get_coord()
-        self.__draw_rect(current_player_x, current_player_y, PLAYER_COLOR)
-
-        # Clear old player's position
-        old_player_x: int | None
-        old_player_y: int | None
-
-        old_player_x, old_player_y = self.__player.get_old_coord()
-        if old_player_x is not None:
-            self.__draw_rect(old_player_x, old_player_y, CellColor.PASS.value)
+            print("Move")
 
 
     def __out_of_bounds(self, coord: Tuple[int, int]) -> bool:
@@ -88,58 +63,11 @@ class GameLogic:
             return True
         return False
 
-    def __draw_maze(self):
-        self.__screen.delete("all")
-        # Render maze cells
-        for x in range(self.__maze.width):
-            for y in range(self.__maze.width):
-                cell: Cell = self.__maze.get_cell(x, y)
 
-                match cell.type:
-                    case CellType.PASS.value:
-                        color:str = CellColor.PASS.value
-                    case CellType.WALL.value:
-                        color:str = CellColor.WALL.value
-                    case CellType.FINISH.value:
-                        color:str = CellColor.FINISH.value
-                    case _:
-                        color:str = CellColor.DEFAULT.value
-                self.__draw_rect(x, y, color)
-        self.__screen.update()
-
-
-    def render(self, time_label: Label):
-        self.__update_time(time_label)
-        self.__screen.update()
-
-    def __draw_rect(self, x: int, y: int, bg_color: str):
-        x1: int = self.offset_x + x * self.cell_size
-        y1: int = self.offset_y + (self.__maze.width - 1 - y) * self.cell_size  # Invert y-coordinate
-        x2: int = x1 + self.cell_size
-        y2: int = y1 + self.cell_size
-        self.__screen.create_rectangle(x1, y1, x2, y2, fill=bg_color, outline=OUTLINE_COLOR)
-
-    def check_win(self):
+    def check_win(self)->bool:
         x, y = self.__player.get_coord()
         if self.__maze.get_cell(x,y).type == "e":
             return True
-
-
-    def __calc_game_session_values(self):
-        self.__screen.update()
-        canvas_width: int = self.__screen.winfo_width()
-        canvas_height: int = self.__screen.winfo_height() - 70
-
-        self.cell_size: float = min(canvas_width / self.__maze.width, canvas_height / self.__maze.width)
-
-        # Calculate total maze render size
-        total_maze_width: float = self.cell_size * self.__maze.width
-        total_maze_height: float = self.cell_size * self.__maze.width
-
-        # Calculate offset to center the maze
-        self.offset_x:float = (canvas_width - total_maze_width) / 2
-        self.offset_y:float = (canvas_height - total_maze_height) / 2
-
 
 
     def __generate_maze(self, width: int, height: int):
@@ -162,31 +90,8 @@ class GameLogic:
         self.__maze.load_game_map(MAZE_MAP_FILE)
 
 
+    def get_score(self) ->int:
+        elapsed_time:int = self.get_game_time()
+        score: int = int((self.__score_multiplier * self.__maze.width * self.__maze.height) / elapsed_time if elapsed_time > 0 else 1)
+        return score
 
-    def game_loop(self, time_label: Label) -> Tuple[str, int]:
-        is_win: bool = False
-        self.start_time: float = time.time()
-        self.__calc_game_session_values()
-        self.__draw_maze()
-        self.__draw_player()
-        while not is_win:
-            time.sleep(1 / FPS)
-            self.render(time_label)
-            is_win = self.check_win()
-
-
-        elapsed_time:int = int(time.time() - self.start_time)
-        game_time:str = self.__format_time(elapsed_time)
-        score:int = int((self.__score_multiplier*self.__maze.width*self.__maze.height) / elapsed_time if elapsed_time > 0 else 1)
-        return game_time, score
-
-    @staticmethod
-    def __format_time(seconds: int) -> str:
-        hours, remainder = divmod(seconds, 3600)
-        minutes, seconds = divmod(remainder, 60)
-        return f"{hours:02}:{minutes:02}:{seconds:02}"
-
-
-    def __update_time(self, time_label: Label):
-        elapsed_time: int = int(time.time() - self.start_time)
-        time_label.config(text=self.__format_time(elapsed_time))
