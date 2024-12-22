@@ -45,7 +45,7 @@ class GameRender:
         right_button_move: [str] = ["d", "right"]
         down_button_move: [str] = ["s", "down", ]
 
-        def handle_keypress(event):
+        def handle_key_press(event):
             key:str = event.keysym.lower()
             if key in up_button_move:
                 self.__game_logic.move_player('up')
@@ -58,7 +58,7 @@ class GameRender:
             self.__draw_player() #todo make better
 
 
-        self.__root.bind("<KeyPress>", handle_keypress)
+        self.__root.bind("<KeyPress>", handle_key_press)
 
 
     def __draw_player(self):
@@ -103,15 +103,15 @@ class GameRender:
         canvas_width: int = self.__screen.winfo_width()
         canvas_height: int = self.__screen.winfo_height() - 70
 
-        self.cell_size: float = min(canvas_width / self.__game_logic.maze.width, canvas_height / self.__game_logic.maze.width)
+        self.__cell_size: float = min(canvas_width / self.__game_logic.maze.width, canvas_height / self.__game_logic.maze.height)
 
         # Calculate total maze render size
-        total_maze_width: float = self.cell_size * self.__game_logic.maze.width
-        total_maze_height: float = self.cell_size * self.__game_logic.maze.width
+        total_maze_width: float = self.__cell_size * self.__game_logic.maze.width
+        total_maze_height: float = self.__cell_size * self.__game_logic.maze.height
 
         # Calculate offset to center the maze
-        self.offset_x:float = (canvas_width - total_maze_width) / 2
-        self.offset_y:float = (canvas_height - total_maze_height) / 2
+        self.__offset_x:float = (canvas_width - total_maze_width) / 2
+        self.__offset_y:float = (canvas_height - total_maze_height) / 2
 
 
     def render(self):
@@ -119,23 +119,19 @@ class GameRender:
         self.__screen.update()
 
 
-    def loop(self):
-        is_win: bool = False
+    def start_loop(self):
         self.__calc_game_session_values()
         self.__add_event_handle()
         self.__draw_maze()
         self.__draw_player()
-        while not is_win:
-            time.sleep(1 / FPS)
+        sleep_time:float = 1 / FPS
+        while not self.__game_logic.is_win():
+            time.sleep(sleep_time)
             self.render()
-            is_win = self.__game_logic.check_win()
+
 
         self.__root.unbind("<KeyPress>")
 
-        elapsed_time: int = self.__game_logic.get_game_time()
-        game_time: str = self.__format_time(elapsed_time)
-        score: int = self.__game_logic.get_score()
-        return game_time, score
 
     def __draw_rect(self, x: int, y: int, bg_color: str):
         x1: int = self.__offset_x + x * self.__cell_size
@@ -144,13 +140,6 @@ class GameRender:
         y2: int = y1 + self.__cell_size
         self.__screen.create_rectangle(x1, y1, x2, y2, fill=bg_color, outline=OUTLINE_COLOR)
 
-    @staticmethod
-    def __format_time(seconds: int) -> str:
-        hours, remainder = divmod(seconds, 3600)
-        minutes, seconds = divmod(remainder, 60)
-        return f"{hours:02}:{minutes:02}:{seconds:02}"
-
 
     def __update_time_label(self):
-        elapsed_time:int =  self.__game_logic.get_game_time()
-        self.__time_label.config(text=self.__format_time(elapsed_time))
+        self.__time_label.config(text=self.__game_logic.get_format_time())

@@ -1,6 +1,9 @@
 import os
 import time
 from enum import Enum
+
+from pyasn1.codec.ber.decoder import stErrorCondition
+
 from .game_entities.maze import Maze
 from .game_entities.player import Player
 import subprocess
@@ -26,7 +29,7 @@ class GameLogic:
         self.__score_multiplier:int = score_multiplier
         self.__start_time: float = time.time()
 
-    def get_game_time(self):
+    def __get_game_time(self):
         return int(time.time() - self.__start_time)
 
     @property
@@ -55,7 +58,7 @@ class GameLogic:
 
         if not self.__out_of_bounds(new_coord) and self.__maze.get_cell(new_x, new_y).type != 'w':
             self.__player.move(direction)
-            print("Move")
+
 
 
     def __out_of_bounds(self, coord: Tuple[int, int]) -> bool:
@@ -64,7 +67,7 @@ class GameLogic:
         return False
 
 
-    def check_win(self)->bool:
+    def is_win(self)->bool:
         x, y = self.__player.get_coord()
         if self.__maze.get_cell(x,y).type == "e":
             return True
@@ -91,7 +94,13 @@ class GameLogic:
 
 
     def get_score(self) ->int:
-        elapsed_time:int = self.get_game_time()
+        elapsed_time:int = self.__get_game_time()
         score: int = int((self.__score_multiplier * self.__maze.width * self.__maze.height) / elapsed_time if elapsed_time > 0 else 1)
         return score
 
+
+    def get_format_time(self) -> str:
+        seconds: int = self.__get_game_time()
+        hours, remainder = divmod(seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        return f"{hours:02}:{minutes:02}:{seconds:02}"
