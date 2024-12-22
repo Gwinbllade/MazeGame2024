@@ -1,9 +1,6 @@
 import os
 import time
 from enum import Enum
-
-from pyasn1.codec.ber.decoder import stErrorCondition
-
 from .game_entities.maze import Maze
 from .game_entities.player import Player
 import subprocess

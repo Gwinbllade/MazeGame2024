@@ -1,7 +1,7 @@
 import time
 from enum import Enum
 from game.game_entities.cell import Cell
-from game.game_logic import GameLogic
+from game.game_logic import GameLogic, CellType
 import tkinter as tk
 
 
@@ -9,10 +9,6 @@ OUTLINE_COLOR = "black"
 PLAYER_COLOR = "red"
 FPS = 144
 
-class CellType(Enum):
-    WALL = "w"
-    PASS = "p"
-    FINISH = "e"
 
 class CellColor(Enum):
     WALL = "black"
