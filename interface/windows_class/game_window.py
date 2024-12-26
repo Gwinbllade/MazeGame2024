@@ -4,7 +4,10 @@ from interface.windows_class.window import Window
 
 
 class GameWindow(Window):
-    def _show_window(self, width, height, score_multiplier):
+    def _show_window(self, **kwargs):
+        width = kwargs["width"]
+        height = kwargs["height"]
+        score_multiplier = kwargs["score_multiplier"]
         self._clear_current_view()
 
         game_logic:GameLogic = GameLogic(width, height, score_multiplier)
@@ -15,5 +18,5 @@ class GameWindow(Window):
         game_time:str = game_logic.get_format_time()
         score:int = game_logic.get_score()
 
-        self._windows["Win window"]._show_window(game_time, score)
+        self._windows["Win window"]._show_window(game_time = game_time, score = score)
 

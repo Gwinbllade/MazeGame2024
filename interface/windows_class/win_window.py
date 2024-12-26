@@ -5,8 +5,10 @@ from user_record.user_results import UserResults
 
 
 class WinWindow(Window):
-    def _show_window(self, game_time:str, score:int):
+    def _show_window(self, **kwargs):
         self._clear_current_view()
+        game_time: str = kwargs['game_time']
+        score: int = kwargs['score']
 
 
 

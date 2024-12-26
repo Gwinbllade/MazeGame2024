@@ -7,7 +7,7 @@ from user_record.user_results import UserResults
 
 
 class LeaderBoardWindow(Window):
-    def _show_window(self, *args):
+    def _show_window(self, **kwargs):
         self._clear_current_view()
 
 
@@ -18,7 +18,7 @@ class LeaderBoardWindow(Window):
             window=table_frame
         )
 
-        # Створюємо таблицю
+
         table = Table(table_frame)
         table.create_table(("N", "Name", "Time", "Score"), None).pack(pady=20, anchor="center")
 
@@ -26,7 +26,7 @@ class LeaderBoardWindow(Window):
         user_results = UserResults()
         table.insert_data(user_results.get_top_10())
 
-        # Кнопка повернення до меню
+
         menu_button = tk.Button(
             self._bg_canvas,
             text="Back to Menu",
@@ -35,6 +35,6 @@ class LeaderBoardWindow(Window):
         )
         self._bg_canvas.create_window(
             self._root.winfo_screenwidth() // 2,
-            500,  # Позиція Y для кнопки
+            500,
             window=menu_button
         )

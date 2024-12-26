@@ -2,7 +2,7 @@ from interface.interface_const import MAIN_FONT
 from interface.windows_class.window import Window
 import tkinter as tk
 class MenuWindow(Window):
-    def _show_window(self, *args):
+    def _show_window(self, **kwargs):
         self._clear_current_view()
 
 

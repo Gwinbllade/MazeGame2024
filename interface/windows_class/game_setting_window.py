@@ -3,7 +3,7 @@ from interface.windows_class.window import Window
 import tkinter as tk
 
 class GameSettingWindow(Window):
-    def _show_window(self, *args):
+    def _show_window(self, **kwargs):
         self._clear_current_view()
 
         difficulty = {
@@ -28,7 +28,7 @@ class GameSettingWindow(Window):
                 width=20,
                 font=(MAIN_FONT, 16),
                 command=lambda w=width, h=height, s=score_multiplier:
-                self._windows["Game window"]._show_window(w, h, s)
+                self._windows["Game window"]._show_window(width = w, height = h, score_multiplier = s)
             )
 
             self._bg_canvas.create_window(

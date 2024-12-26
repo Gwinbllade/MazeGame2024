@@ -1,18 +1,16 @@
 import tkinter as tk
 from typing import Optional
 
-from interface.interface_const import BG_PATH
-
 
 class Window:
     def __init__(self, root: tk.Tk, bg_path:str):
         self._current_window_frame: Optional[tk.Frame] = None
         self._root: tk.Tk = root
         self._windows: Optional[dict[str, 'Window']] = None
-        self._stretched_image = None  # To store the resized image
+        self._stretched_image = None
         self._root_width = self._root.winfo_screenwidth()
         self._root_height = self._root.winfo_screenheight()
-        self._bg_image = tk.PhotoImage(file=BG_PATH)
+        self._bg_image = tk.PhotoImage(file=bg_path)
         self._bg_canvas = None
 
 
@@ -38,7 +36,7 @@ class Window:
                 widget.destroy()
         self._draw_bg()
 
-    def _show_window(self):
+    def _show_window(self, **kwargs):
         pass
 
     def _draw_bg(self):
