@@ -15,7 +15,7 @@ class Table:
     def create_table(self, columns:  Tuple[str, ...], cell_width: Optional[int] = 100) -> Frame:
         table_frame: Frame = Frame(self.__root, bg='white')
 
-        self.__table = ttk.Treeview(table_frame, columns=columns, show="headings")
+        self.__table:ttk.Treeview = ttk.Treeview(table_frame, columns=columns, show="headings")
         self.__table.pack(fill=tk.BOTH, expand=True)
 
 

@@ -1,3 +1,4 @@
+from interface.interface_const import MAIN_FONT
 from interface.table import Table
 from interface.windows_class.window import Window
 import tkinter as tk
@@ -18,5 +19,5 @@ class LeaderBoardWindow(Window):
         table.insert_data(user_results.get_top_10())
 
         # Menu button
-        tk.Button(self._current_window_frame, text="Back to Menu", font=("Helvetica", 16),
+        tk.Button(self._current_window_frame, text="Back to Menu", font=(MAIN_FONT, 16),
                                 command=self._windows["Menu"].show_window).pack(pady=20, anchor="center")

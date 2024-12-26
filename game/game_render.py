@@ -4,6 +4,7 @@ from game.game_entities.cell import Cell
 from game.game_logic import GameLogic, CellType
 import tkinter as tk
 
+from interface.interface_const import MAIN_FONT
 
 OUTLINE_COLOR = "black"
 PLAYER_COLOR = "red"
@@ -31,7 +32,7 @@ class GameRender:
         self.__screen = tk.Canvas(self.__window)
         self.__screen.pack(fill=tk.BOTH, expand=True)
 
-        self.__time_label: tk.Label = tk.Label(self.__window, text="00:00:00", font=("Helvetica", 30), bg="white")
+        self.__time_label: tk.Label = tk.Label(self.__window, text="00:00:00", font=(MAIN_FONT, 30))
         self.__time_label.place(x=10, y=10)
 
 
