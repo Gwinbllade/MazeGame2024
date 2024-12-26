@@ -1,17 +1,19 @@
 from copy import copy
+
+from user_record.user_record_const import SAVE_RECORD_PATH
 from user_record.user_result_record import UserResultRecord
 
 
-SAVE_RECORD_PATH = "app_file/results.txt"
+
 
 
 class UserResults:
-    def __init__(self, file_path: str):
+    def __init__(self, file_path: str = SAVE_RECORD_PATH):
         self.__records: [UserResultRecord] = []
         self.__read_file(file_path)
 
 
-    def __read_file(self, file_path: str):
+    def __read_file(self, file_path: str = SAVE_RECORD_PATH):
         with open(file_path, 'r') as f:
             data = f.read().split('\n')
             for record in data:

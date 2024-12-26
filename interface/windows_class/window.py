@@ -1,12 +1,20 @@
 import tkinter as tk
 from typing import Optional
 
+from interface.interface_const import BG_PATH
+
 
 class Window:
-    def __init__(self, root: tk.Tk):
-        self._current_window_frame: Optional[tk.Frame]  = None
+    def __init__(self, root: tk.Tk, bg_path:str):
+        self._current_window_frame: Optional[tk.Frame] = None
         self._root: tk.Tk = root
         self._windows: Optional[dict[str, 'Window']] = None
+        self._stretched_image = None  # To store the resized image
+        self._root_width = self._root.winfo_screenwidth()
+        self._root_height = self._root.winfo_screenheight()
+        self._bg_image = tk.PhotoImage(file=BG_PATH)
+        self._bg_canvas = None
+
 
     @property
     def windows(self) -> dict[str, 'Window']:
@@ -15,7 +23,6 @@ class Window:
     @windows.setter
     def windows(self, windows: ['Window']):
         self._windows = windows
-
 
     @property
     def current_window_frame(self) -> tk.Frame:
@@ -26,8 +33,30 @@ class Window:
         self._current_window_frame = current_window_frame
 
     def _clear_current_view(self):
-        for widget in self._current_window_frame.winfo_children():
-            widget.destroy()
+        if self._current_window_frame:
+            for widget in self._current_window_frame.winfo_children():
+                widget.destroy()
+        self._draw_bg()
 
-    def show_window(self, *args):
+    def _show_window(self):
         pass
+
+    def _draw_bg(self):
+        self._bg_canvas = tk.Canvas(self._current_window_frame, highlightthickness=0)
+        self._bg_canvas.pack(fill=tk.BOTH, expand=True)
+
+        image_on_canvas = self._bg_canvas.create_image(0, 0, image=self._bg_image, anchor="nw")
+
+        # Store the stretched image reference
+        self._stretched_image = self._bg_image.subsample(
+            self._bg_image.width() // self._root_width,
+            self._bg_image.height() // self._root_height
+        ) if self._bg_image.width() > self._root_width or self._bg_image.height() > self._root_height else \
+            self._bg_image.zoom(
+                self._root_width // self._bg_image.width(),
+                self._root_height // self._bg_image.height()
+            )
+
+        self._bg_canvas.itemconfig(image_on_canvas, image=self._stretched_image)
+        self._bg_canvas.config(width=self._root_width, height=self._root_height)
+
