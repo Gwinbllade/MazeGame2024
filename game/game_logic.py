@@ -1,14 +1,17 @@
+import ctypes
 import os
 import time
 from enum import Enum
 from .game_entities.maze import Maze
 from .game_entities.player import Player
-import subprocess
 from typing import Tuple
 
 os.environ["PATH"] += r";C:\msys64\ucrt64\bin"
 MAZE_MAP_FILE = "./app_file/maze_map.txt"
 MAZE_CONFIG_MAP = "./app_file/maze_config.txt"
+MAZE_GENERATOR_DLL_LIB_PATH = "D:\\Проекти\\MazeGame\\maze_generator\\maze_lib.dll"
+
+
 
 class CellType(Enum):
     WALL = "w"
@@ -69,25 +72,33 @@ class GameLogic:
         if self.__maze.get_cell(x,y).type == "e":
             return True
 
-
     def __generate_maze(self, width: int, height: int):
         with open(MAZE_CONFIG_MAP, "w") as f:
-            f.write(str(width) + " " + str(height))
+            f.write(f"{width} {height}")
+        try:
+            maze_lib = ctypes.CDLL(MAZE_GENERATOR_DLL_LIB_PATH)
 
-        command = [
-            "cd", r"d:\Проекти\MazeGame\maze_generator",
-            "&&", "g++", "MazeGenerator.cpp", "-o", "MazeGenerator",
-            "&&", r"d:\Проекти\MazeGame\maze_generator\MazeGenerator"
-        ]
-        subprocess.run(
-            " ".join(command),
-            shell=True,
-            text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
-        )
+            maze_lib.Maze_new.argtypes = [ctypes.c_char_p]
+            maze_lib.Maze_new.restype = ctypes.c_void_p
 
-        self.__maze.load_game_map(MAZE_MAP_FILE)
+            maze_lib.Maze_saveMazeToFile.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
+            maze_lib.Maze_saveMazeToFile.restype = None
+
+            maze = maze_lib.Maze_new(MAZE_CONFIG_MAP.encode('utf-8'))
+
+            maze_lib.Maze_saveMazeToFile(maze, MAZE_MAP_FILE.encode('utf-8'))
+
+            with open(MAZE_MAP_FILE, "r") as file:
+                content = file.read()
+
+            self.__maze.load_game_map(MAZE_MAP_FILE)
+
+            maze_lib.Maze_delete.argtypes = [ctypes.c_void_p]
+            maze_lib.Maze_delete.restype = None
+
+        except Exception as e:
+            print(f"Помилка у __generate_maze: {e}")
+            raise
 
 
     def get_score(self) ->int:
