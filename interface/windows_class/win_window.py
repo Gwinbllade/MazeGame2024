@@ -11,11 +11,9 @@ class WinWindow(Window):
         score: int = kwargs['score']
 
 
-
-
-        self._bg_canvas.create_text(self._root.winfo_screenwidth() // 2, 150, text=f"You win.\n  Your number of points: {score}.\n Time:{game_time}\nEnter your name",
-                                   font=(MAIN_FONT, 50, "bold"), justify="center", fill="white")
-
+        self._bg_canvas.create_text(self._root.winfo_screenwidth() // 2, 150,
+                                    text=f"You win.\n  Your number of points: {score}.\n Time: {game_time}\nEnter your name",
+                                    font=(MAIN_FONT, 50, "bold"), justify="center", fill="white")
 
 
         name_entry = tk.Entry(
@@ -30,17 +28,24 @@ class WinWindow(Window):
         )
 
 
-        save_button = tk.Button(
-            self._bg_canvas,
-            text="Save",
-            font=(MAIN_FONT, 16),
-            command=lambda: (
-                UserResults.save_result(name_entry.get(), game_time, score),
-                self._windows["Menu"]._show_window()
-            )
-        )
-        self._bg_canvas.create_window(
+        save_button_text = self._bg_canvas.create_text(
             self._root.winfo_screenwidth() // 2,
             450,
-            window=save_button
+            text="Save",
+            font=(MAIN_FONT, 25),
+            fill="black",
+            tags="save_button"
         )
+
+
+        self._bg_canvas.tag_bind(save_button_text, "<Button-1>",
+                                 lambda e: (
+                                     UserResults.save_result(name_entry.get(), game_time, score),
+                                     self._windows["Menu"]._show_window()
+                                 ))
+
+
+        self._bg_canvas.tag_bind(save_button_text, "<Enter>",
+                                 lambda e, t=save_button_text: self._bg_canvas.itemconfig(t, fill="purple"))
+        self._bg_canvas.tag_bind(save_button_text, "<Leave>",
+                                 lambda e, t=save_button_text: self._bg_canvas.itemconfig(t, fill="black"))

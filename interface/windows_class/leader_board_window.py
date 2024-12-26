@@ -27,14 +27,20 @@ class LeaderBoardWindow(Window):
         table.insert_data(user_results.get_top_10())
 
 
-        menu_button = tk.Button(
-            self._bg_canvas,
-            text="Back to Menu",
-            font=(MAIN_FONT, 16),
-            command=self._windows["Menu"]._show_window
-        )
-        self._bg_canvas.create_window(
+        back_button_text = self._bg_canvas.create_text(
             self._root.winfo_screenwidth() // 2,
             500,
-            window=menu_button
+            text="Back to Menu",
+            font=(MAIN_FONT, 25),
+            fill="black",
+            tags="back_button"
         )
+
+
+        self._bg_canvas.tag_bind(back_button_text, "<Button-1>", lambda e: self._windows["Menu"]._show_window())
+
+
+        self._bg_canvas.tag_bind(back_button_text, "<Enter>",
+                                  lambda e, t=back_button_text: self._bg_canvas.itemconfig(t, fill="purple"))
+        self._bg_canvas.tag_bind(back_button_text, "<Leave>",
+                                  lambda e, t=back_button_text: self._bg_canvas.itemconfig(t, fill="black"))
