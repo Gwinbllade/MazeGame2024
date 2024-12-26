@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from interface.interface_const import BG_PATH
+from interface.interface_const import BG_PATH, BLURRED_BG_PATH
 from interface.windows_class.game_setting_window import GameSettingWindow
 from interface.windows_class.game_window import GameWindow
 from interface.windows_class.leader_board_window import LeaderBoardWindow
@@ -19,11 +19,11 @@ class UI:
 
 
         self.__windows: dict[str, Window] = {
-            "Game setting" : GameSettingWindow(self.__root, BG_PATH),
+            "Game setting" : GameSettingWindow(self.__root, BLURRED_BG_PATH),
             "Menu": MenuWindow(self.__root, BG_PATH),
-            "Leader board": LeaderBoardWindow(self.__root, BG_PATH),
-            "Win window": WinWindow(self.__root, BG_PATH),
-            "Game window": GameWindow(self.__root, BG_PATH),
+            "Leader board": LeaderBoardWindow(self.__root, BLURRED_BG_PATH),
+            "Win window": WinWindow(self.__root, BLURRED_BG_PATH),
+            "Game window": GameWindow(self.__root, BLURRED_BG_PATH),
         }
 
         for window_name in self.__windows:

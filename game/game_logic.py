@@ -6,7 +6,6 @@ from .game_entities.maze import Maze
 from .game_entities.player import Player
 from typing import Tuple
 
-os.environ["PATH"] += r";C:\msys64\ucrt64\bin"
 MAZE_MAP_FILE = "./app_file/maze_map.txt"
 MAZE_CONFIG_MAP = "./app_file/maze_config.txt"
 MAZE_GENERATOR_DLL_LIB_PATH = "D:\\Проекти\\MazeGame\\maze_generator\\maze_lib.dll"
@@ -56,7 +55,7 @@ class GameLogic:
         new_y:int
         new_x, new_y = new_coord
 
-        if not self.__out_of_bounds(new_coord) and self.__maze.get_cell(new_x, new_y).type != 'w':
+        if not self.__out_of_bounds(new_coord) and self.__maze.get_cell(new_x, new_y).type != CellType.WALL.value:
             self.__player.move(direction)
 
 
@@ -69,7 +68,7 @@ class GameLogic:
 
     def is_win(self)->bool:
         x, y = self.__player.get_coord()
-        if self.__maze.get_cell(x,y).type == "e":
+        if self.__maze.get_cell(x,y).type == CellType.FINISH.value:
             return True
 
     def __generate_maze(self, width: int, height: int):
@@ -88,8 +87,6 @@ class GameLogic:
 
             maze_lib.Maze_saveMazeToFile(maze, MAZE_MAP_FILE.encode('utf-8'))
 
-            with open(MAZE_MAP_FILE, "r") as file:
-                content = file.read()
 
             self.__maze.load_game_map(MAZE_MAP_FILE)
 
@@ -97,7 +94,7 @@ class GameLogic:
             maze_lib.Maze_delete.restype = None
 
         except Exception as e:
-            print(f"Помилка у __generate_maze: {e}")
+            print(f"Error in __generate_maze: {e}")
             raise
 
 
