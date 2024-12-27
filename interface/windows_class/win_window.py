@@ -1,3 +1,4 @@
+from interface.custom_button import CustomButton
 from interface.interface_const import MAIN_FONT
 from interface.windows_class.window import Window
 import tkinter as tk
@@ -5,7 +6,7 @@ from user_record.user_results import UserResults
 
 
 class WinWindow(Window):
-    def _show_window(self, **kwargs):
+    def show_window(self, **kwargs):
         self._clear_current_view()
         game_time: str = kwargs['game_time']
         score: int = kwargs['score']
@@ -27,25 +28,12 @@ class WinWindow(Window):
             window=name_entry
         )
 
-
-        save_button_text = self._bg_canvas.create_text(
-            self._root.winfo_screenwidth() // 2,
-            450,
-            text="Save",
-            font=(MAIN_FONT, 25),
-            fill="black",
-            tags="save_button"
+        CustomButton.create_button(
+            button_name="Save",
+            x=self._root.winfo_screenwidth() // 2,
+            y=450,
+            master=self._bg_canvas,
+            callback=lambda : (
+                            UserResults.save_result(name_entry.get(), game_time, score),
+                            self._windows["Menu"].show_window())
         )
-
-
-        self._bg_canvas.tag_bind(save_button_text, "<Button-1>",
-                                 lambda e: (
-                                     UserResults.save_result(name_entry.get(), game_time, score),
-                                     self._windows["Menu"]._show_window()
-                                 ))
-
-
-        self._bg_canvas.tag_bind(save_button_text, "<Enter>",
-                                 lambda e, t=save_button_text: self._bg_canvas.itemconfig(t, fill="purple"))
-        self._bg_canvas.tag_bind(save_button_text, "<Leave>",
-                                 lambda e, t=save_button_text: self._bg_canvas.itemconfig(t, fill="black"))

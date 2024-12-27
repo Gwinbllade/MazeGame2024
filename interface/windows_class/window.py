@@ -36,7 +36,7 @@ class Window:
                 widget.destroy()
         self._draw_bg()
 
-    def _show_window(self, **kwargs):
+    def show_window(self, **kwargs):
         pass
 
     def _draw_bg(self):

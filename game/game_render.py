@@ -9,6 +9,7 @@ from interface.interface_const import MAIN_FONT, BG_PATH
 OUTLINE_COLOR = "black"
 PLAYER_COLOR = "red"
 FPS = 144
+PADDING = 20
 
 
 class CellColor(Enum):
@@ -25,8 +26,8 @@ class GameRender:
         self.__offset_x: int = 0
         self.__offset_y: int = 0
         self.__cell_size: int = 0
-        self.__root = root
-        self.__bg_canvas = bg_canvas
+        self.__root:tk.Tk = root
+        self.__bg_canvas:tk.Canvas = bg_canvas
 
 
 
@@ -34,21 +35,11 @@ class GameRender:
         self.__bg_canvas.create_window(
             self.__bg_canvas.winfo_screenwidth() // 2,
             self.__bg_canvas.winfo_screenheight() // 2 - 30,
-            window=self.__screen,
-
+            window = self.__screen,
         )
 
-        # Створюємо та розміщуємо мітку часу
-        self.__time_label = tk.Label(
-            self.__bg_canvas,
-            text="00:00:00",
-            font=(MAIN_FONT, 30)
-        )
-        self.__bg_canvas.create_window(
-            150,  # x position
-            50,  # y position
-            window=self.__time_label
-        )
+        self.__time_label = tk.Label(self.__bg_canvas, text="00:00:00", font=(MAIN_FONT, 30))
+        self.__bg_canvas.create_window(150, 50,window=self.__time_label)
 
     def __add_event_handle(self):
         up_button_move: [str] = ["w", "up"]
@@ -101,33 +92,29 @@ class GameRender:
     def __calc_game_session_values(self):
         self.__screen.update()
 
-        # Додаємо невеликий відступ для відображення границь
-        PADDING = 20  # пікселі для відступу з кожного боку
+        maze_width:int = self.__game_logic.maze.width
+        maze_height:int = self.__game_logic.maze.height
 
-        # Отримуємо розміри лабіринту
-        maze_width = self.__game_logic.maze.width
-        maze_height = self.__game_logic.maze.height
 
-        # Отримуємо розміри екрану з урахуванням відступів
-        screen_width = self.__screen.winfo_width() - (2 * PADDING)
-        screen_height = self.__screen.winfo_height() - (2 * PADDING)
+        screen_width:int = self.__screen.winfo_width() - (2 * PADDING)
+        screen_height:int = self.__screen.winfo_height() - (2 * PADDING)
 
-        # Розраховуємо розмір клітинки, щоб лабіринт займав весь простір
-        width_cell_size = screen_width / maze_width
-        height_cell_size = screen_height / maze_height
 
-        # Беремо менший розмір, щоб лабіринт помістився повністю
-        self.__cell_size = min(width_cell_size, height_cell_size)
+        width_cell_size:float = screen_width / maze_width
+        height_cell_size:float = screen_height / maze_height
 
-        # Розраховуємо загальні розміри лабіринту
-        total_maze_width = self.__cell_size * maze_width
-        total_maze_height = self.__cell_size * maze_height
 
-        # Центруємо лабіринт з урахуванням відступів
-        self.__offset_x = (self.__screen.winfo_width() - total_maze_width) / 2
-        self.__offset_y = (self.__screen.winfo_height() - total_maze_height) / 2
+        self.__cell_size:float = min(width_cell_size, height_cell_size)
 
-        # Оновлюємо розмір канви, щоб вона включала лабіринт та відступи
+
+        total_maze_width:float = self.__cell_size * maze_width
+        total_maze_height:float = self.__cell_size * maze_height
+
+
+        self.__offset_x:float = (self.__screen.winfo_width() - total_maze_width) / 2
+        self.__offset_y:float = (self.__screen.winfo_height() - total_maze_height) / 2
+
+
         self.__screen.config(
             width=total_maze_width + (2 * PADDING),
             height=total_maze_height + (2 * PADDING)
@@ -146,6 +133,7 @@ class GameRender:
         while not self.__game_logic.is_win():
             time.sleep(sleep_time)
             self.render()
+
 
         self.__root.unbind("<KeyPress>")
 

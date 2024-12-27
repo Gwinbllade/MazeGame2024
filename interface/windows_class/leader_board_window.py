@@ -1,4 +1,4 @@
-from interface.interface_const import MAIN_FONT, BG_PATH
+from interface.custom_button import CustomButton
 from interface.table import Table
 from interface.windows_class.window import Window
 import tkinter as tk
@@ -7,7 +7,7 @@ from user_record.user_results import UserResults
 
 
 class LeaderBoardWindow(Window):
-    def _show_window(self, **kwargs):
+    def show_window(self, **kwargs):
         self._clear_current_view()
 
 
@@ -26,21 +26,10 @@ class LeaderBoardWindow(Window):
         user_results = UserResults()
         table.insert_data(user_results.get_top_10())
 
-
-        back_button_text = self._bg_canvas.create_text(
-            self._root.winfo_screenwidth() // 2,
-            500,
-            text="Back to Menu",
-            font=(MAIN_FONT, 25),
-            fill="black",
-            tags="back_button"
+        CustomButton.create_button(
+            button_name="Back to Menu",
+            x=self._root.winfo_screenwidth() // 2,
+            y=500,
+            master=self._bg_canvas,
+            callback= lambda: self._windows["Menu"].show_window()
         )
-
-
-        self._bg_canvas.tag_bind(back_button_text, "<Button-1>", lambda e: self._windows["Menu"]._show_window())
-
-
-        self._bg_canvas.tag_bind(back_button_text, "<Enter>",
-                                  lambda e, t=back_button_text: self._bg_canvas.itemconfig(t, fill="purple"))
-        self._bg_canvas.tag_bind(back_button_text, "<Leave>",
-                                  lambda e, t=back_button_text: self._bg_canvas.itemconfig(t, fill="black"))

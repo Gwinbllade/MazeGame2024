@@ -14,6 +14,10 @@ class UI:
         self.__root: tk.Tk = tk.Tk()
         self.__root.title('Maze Game')
         self.__root.state('zoomed')
+        self.__root.overrideredirect(True)
+        self.__root.bind("<Escape>", lambda event: self.__windows["Menu"].show_window())
+
+
         self._current_window_frame: tk.Frame = tk.Frame(self.__root)
         self._current_window_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
@@ -31,8 +35,7 @@ class UI:
             self.__windows[window_name].current_window_frame = self._current_window_frame
 
 
-        self.__windows["Menu"]._show_window()
-
 
     def start(self):
+        self.__windows["Menu"].show_window()
         self.__root.mainloop()
