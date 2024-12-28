@@ -1,6 +1,6 @@
 from src.const import GAME_DIFFICULTY, MAIN_FONT_NAME
-from src.interface.custom_button import CustomButton
-from src.interface.windows_class.window import Window
+from src.interface.widgets.custom_button import CustomButton
+from src.interface.windows.window import Window
 
 
 

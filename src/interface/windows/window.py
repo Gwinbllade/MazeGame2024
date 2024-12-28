@@ -11,7 +11,7 @@ class Window:
         self._root_width = self._root.winfo_screenwidth()
         self._root_height = self._root.winfo_screenheight()
         self._bg_image = tk.PhotoImage(file=bg_path)
-        self._bg_canvas = None
+        self._bg_canvas: Optional[tk.Canvas]  = None
 
 
     @property

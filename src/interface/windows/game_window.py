@@ -1,6 +1,6 @@
 from src.game.game_logic import GameLogic
 from src.game.game_render import GameRender
-from src.interface.windows_class.window import Window
+from src.interface.windows.window import Window
 
 
 class GameWindow(Window):

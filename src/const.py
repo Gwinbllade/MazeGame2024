@@ -10,7 +10,7 @@ FPS = 144
 GAME_MAP_PADDING = 20
 DEFAULT_TIMER_TIME_STR = "00:00:00"
 
-# Game setting {HARD_NAME, HEIGHT, WIDTH, SCORE_MULTIPLE}
+# Game setting {DIFFICULTY_NAME, HEIGHT, WIDTH, SCORE_MULTIPLE}
 GAME_DIFFICULTY = {
     "Hard": [105, 105, 300],
     "Medium": [75, 75, 200],
@@ -23,10 +23,26 @@ MAIN_FONT_NAME = "KARMATIC ARCADE"
 BLURRED_BG_PATH = "./app_file/assets/img/blurred_bg.ppm"
 BG_PATH = "./app_file/assets/img/background.ppm"
 
+# Table
+TABLE_LINE_COLOR = "black"
+TABLE_ENTRY_COLOR = "black"
+TABLE_HEADER_NAME_COLOR = "purple"
+TABLE_LINE_WIDTH = 10
+
+
+TABLE_TOP_MARGIN = 20
+TABLE_RIGHT_MARGIN = 50
+TABLE_BOTTOM_MARGIN = 100
+TABLE_LEFT_MARGIN = 50
+
+
+
+
+
 
 # Button
-BUTTON_TEXT_COLOR: str = "black"
-FONT: tuple[str, int] = (MAIN_FONT_NAME, 25)
+BUTTON_TEXT_COLOR = "black"
+FONT= (MAIN_FONT_NAME, 25)
 BUTTON_TEXT_COVER_COLOR = "purple"
-TAGS: str = 'button'
+TAGS= 'button'
 

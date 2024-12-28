@@ -30,7 +30,7 @@ class UserResults:
             while len(top_10_records)<10:
                 top_10_records.append(UserResultRecord("-#0#0"))
 
-        return ((f"{i+1}", f"{top_10_records[i].name}", f"{top_10_records[i].time}", f"{top_10_records[i].score}") for i in range(0, 10))
+        return [(f"{i+1}", f"{top_10_records[i].name}", f"{top_10_records[i].time}", f"{top_10_records[i].score}") for i in range(0, 10)]
 
     @staticmethod
     def save_result(name: str, time: str, score:int):

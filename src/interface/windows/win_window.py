@@ -1,6 +1,6 @@
 from src.const import MAIN_FONT_NAME
-from src.interface.custom_button import CustomButton
-from src.interface.windows_class.window import Window
+from src.interface.widgets.custom_button import CustomButton
+from src.interface.windows.window import Window
 import tkinter as tk
 from src.user_record.user_results import UserResults
 

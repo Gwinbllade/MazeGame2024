@@ -1,12 +1,12 @@
 import tkinter as tk
 
 from src.const import BLURRED_BG_PATH, BG_PATH
-from src.interface.windows_class.game_setting_window import GameSettingWindow
-from src.interface.windows_class.game_window import GameWindow
-from src.interface.windows_class.leader_board_window import LeaderBoardWindow
-from src.interface.windows_class.menu_window import MenuWindow
-from src.interface.windows_class.win_window import WinWindow
-from src.interface.windows_class.window import Window
+from src.interface.windows.game_setting_window import GameSettingWindow
+from src.interface.windows.game_window import GameWindow
+from src.interface.windows.leader_board_window import LeaderBoardWindow
+from src.interface.windows.menu_window import MenuWindow
+from src.interface.windows.win_window import WinWindow
+from src.interface.windows.window import Window
 
 
 class UI:
