@@ -1,6 +1,6 @@
 import tkinter
 
-from src.const import FONT, TABLE_LINE_COLOR, TABLE_HEADER_NAME_COLOR, TABLE_ENTRY_COLOR, TABLE_LINE_WIDTH
+from src.const import MAIN_FONT, TABLE_LINE_COLOR, TABLE_HEADER_NAME_COLOR, TABLE_ENTRY_COLOR, TABLE_LINE_WIDTH
 
 
 class CustomTable:
@@ -81,7 +81,7 @@ class CustomTable:
                 x,
                 self.__start_y + self.__cell_height / 2,
                 text=col,
-                font=FONT,
+                font=MAIN_FONT,
                 fill = TABLE_HEADER_NAME_COLOR
             )
             current_x += self.__column_widths[col]
@@ -97,6 +97,6 @@ class CustomTable:
                     y,
                     text=str(cell_data),
                     fill = TABLE_ENTRY_COLOR,
-                    font=FONT
+                    font=MAIN_FONT
                 )
                 current_x += list(self.__column_widths.values())[col_idx]

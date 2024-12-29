@@ -1,4 +1,4 @@
-from src.const import MAIN_FONT_NAME
+from src.const import MAIN_FONT_NAME, MAIN_FONT
 from src.interface.widgets.custom_button import CustomButton
 from src.interface.windows.window import Window
 import tkinter as tk
@@ -19,7 +19,7 @@ class WinWindow(Window):
 
         name_entry = tk.Entry(
             self._bg_canvas,
-            font=(MAIN_FONT_NAME, 30),
+            font=MAIN_FONT,
             justify="center"
         )
         self._bg_canvas.create_window(

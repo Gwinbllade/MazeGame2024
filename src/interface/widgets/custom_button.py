@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from src.const import FONT, BUTTON_TEXT_COLOR, TAGS, BUTTON_TEXT_COVER_COLOR
+from src.const import MAIN_FONT, BUTTON_TEXT_COLOR, TAGS, BUTTON_TEXT_COVER_COLOR
 
 
 
@@ -9,7 +9,7 @@ class CustomButton:
 
    @staticmethod
    def create_button(button_name:str, x:float, y:float, master: tk.Canvas, callback:callable ):
-       button_text = master.create_text(x, y, text = button_name, font = FONT, fill=BUTTON_TEXT_COLOR, tags=TAGS)
+       button_text = master.create_text(x, y, text = button_name, font = MAIN_FONT, fill=BUTTON_TEXT_COLOR, tags=TAGS)
 
        master.tag_bind(button_text, "<Button-1>", lambda e, cmd=callback: cmd())
 

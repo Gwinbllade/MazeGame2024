@@ -1,6 +1,7 @@
 import time
 
-from src.const import PLAYER_COLOR, GAME_MAP_PADDING, FPS, OUTLINE_COLOR, DEFAULT_TIMER_TIME_STR, MAIN_FONT_NAME
+from src.const import PLAYER_COLOR, GAME_MAP_PADDING, FPS, OUTLINE_COLOR, DEFAULT_TIMER_TIME_STR, MAIN_FONT_NAME, \
+    MAIN_FONT, TIMER_FILL
 from src.game.game_entities.cell import Cell, CellColor, CellType
 from src.game.game_logic import GameLogic
 import tkinter as tk
@@ -27,8 +28,9 @@ class GameRender:
             window = self.__screen,
         )
 
-        self.__time_label = tk.Label(self.__bg_canvas, text=DEFAULT_TIMER_TIME_STR, font=(MAIN_FONT_NAME, 30))
-        self.__bg_canvas.create_window(150, 50,window=self.__time_label)
+
+        self.__time_label_id = self.__bg_canvas.create_text(150, 50, text=DEFAULT_TIMER_TIME_STR, font=MAIN_FONT, tags="time_label", fill=TIMER_FILL)
+
 
     def __add_event_handle(self):
         up_button_move: [str] = ["w", "up"]
@@ -134,4 +136,5 @@ class GameRender:
         self.__screen.create_rectangle(x1, y1, x2, y2, fill=bg_color, outline=OUTLINE_COLOR)
 
     def __update_time_label(self):
-        self.__time_label.config(text=self.__game_logic.get_format_time())
+        self.__bg_canvas.itemconfig(self.__time_label_id, text=self.__game_logic.get_format_time())
+

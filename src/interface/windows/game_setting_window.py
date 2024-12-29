@@ -1,4 +1,4 @@
-from src.const import GAME_DIFFICULTY, MAIN_FONT_NAME
+from src.const import GAME_DIFFICULTY, GAME_NAME_FONT, GAME_NAME
 from src.interface.widgets.custom_button import CustomButton
 from src.interface.windows.window import Window
 
@@ -9,8 +9,8 @@ class GameSettingWindow(Window):
     def show_window(self, **kwargs):
         self._clear_current_view()
 
-        self._bg_canvas.create_text(self._root.winfo_screenwidth() // 2, 100, text="Maze Game",
-                                    font=(MAIN_FONT_NAME, 100, "bold"))
+        self._bg_canvas.create_text(self._root.winfo_screenwidth() // 2, 100, text=GAME_NAME,
+                                    font=GAME_NAME_FONT)
 
         start_y = 300
 
