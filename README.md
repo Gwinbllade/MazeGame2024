@@ -1,6 +1,5 @@
-# Project Name
+# Wonder Maze 
 
-A brief description of your project: its purpose, main functionality, and usage.
 
 ## Requirements
 
@@ -24,7 +23,9 @@ $ pacman -Syu
 $ pacman -S base-devel python python-pip
 ```
 
-
+To generate a dll library when changing C++ code: 
 ```bash
 g++ -shared -o maze_lib.dll generator.cpp
 ```
+### Run application 
+To run the application, run main.py 
