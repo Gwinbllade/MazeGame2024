@@ -1,4 +1,3 @@
-
 class UserResultRecord:
     def __init__(self, data: str):
         data = data.split('#')
@@ -23,5 +22,3 @@ class UserResultRecord:
 
     def __lt__(self, other) -> bool:
         return self.score > other.score
-
-

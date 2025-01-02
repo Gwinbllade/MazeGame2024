@@ -1,11 +1,10 @@
 from typing import Tuple
-
 from src.game.game_entities.character import Character
 
 class Player(Character):
     def __init__(self):
         super().__init__()
-        self.__old_x: int | None  = None
+        self.__old_x: int | None = None
         self.__old_y: int | None = None
 
     def get_old_coord(self) -> Tuple[int, int]:

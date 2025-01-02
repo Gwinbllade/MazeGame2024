@@ -1,0 +1,15 @@
+    Hey there! Welcome to Wonder Maze
+Labyrinths are a fascinating type of puzzle, and they present a different type of challenge to the brain.
+Neuropsychobiological studies show that solving mazes activates a network in the brain
+from the visual to the parietal areas.
+So it is not only interesting and fun, but also useful.
+
+How to play?
+The “player” is controlled by the keys up, left, right, down.
+
+
+
+
+
+Have fun and reach the top, player!
+

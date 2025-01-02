@@ -1,1 +1,0 @@
-SAVE_RECORD_PATH = "app_file/results.txt"

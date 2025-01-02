@@ -1,7 +1,6 @@
 from typing import Tuple
 from src.game.game_entities.cell import Cell
 
-
 class Maze:
     def __init__(self):
         self.__game_map: [[Cell]] = []
@@ -23,20 +22,13 @@ class Maze:
                         self.__game_map[i].append(Cell(0, 0, "p"))
                         continue
 
-
                     cell_entry = data.pop(0).split(" ")
-
                     x: int = int(cell_entry[0])
                     y: int = int(cell_entry[1])
                     cell_type: str = cell_entry[2][0]
                     self.__game_map[i].append(Cell(x, y, cell_type))
                     if cell_type == "s":
                         self.__coord_start = (x, y)
-
-
-    @property
-    def coord_start(self) -> Tuple[int, int]:
-        return self.__coord_start
 
     @property
     def width(self) -> int:
@@ -45,6 +37,10 @@ class Maze:
     @property
     def height(self) -> int:
         return self.__height
+
+    @property
+    def coord_start(self) -> Tuple[int, int]:
+        return self.__coord_start
 
     def get_cell(self, x:int, y:int) -> Cell:
         return self.__game_map[x][y]

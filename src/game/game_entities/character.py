@@ -1,6 +1,5 @@
 from typing import Tuple
 
-
 class Character:
     def __init__(self):
         self._x:int = 0
